@@ -1,16 +1,16 @@
 import tkinter as tk
 
-class Application(tk.Frame):
-    def __init__(self, master=None):
-        tk.Frame.__init__(self, master)
-        self.grid()
-        self.createWidgets()
+root = tk.Tk();
+root.attributes('-fullscreen', True)
 
-    def createWidgets(self):
-        self.quitButton = tk.Button(self, text='Quit',
-            command=self.quit)
-        self.quitButton.grid()
+frame = tk.Frame(root)
+frame.pack()
 
-app = Application()
-app.master.title('Sample application')
-app.mainloop()
+button = tk.Button(frame,
+                   text="QUIT",
+                   fg="red",
+                   command=quit)
+button.pack(side=tk.LEFT)
+button.place(y = 4)
+
+root.mainloop()
