@@ -1,3 +1,4 @@
+import math
 xCoord=[]
 yCoord=[]
 lines = []
@@ -9,7 +10,8 @@ substr2 = ','
 substr3 = ')'
 xTemp=0
 yTemp=0
-replay = input("Enter name of replay: ")           #lets user input replay .txt
+print("Welcome to osu! UCISD's replay analyzer! Input a replay that you want to analyze!")
+replay = input("Name of replay: ")           #lets user input replay .txt
 replayFile = open(replay,'rt')
 for line in replayFile:                   #appends each line into seperate elements of list(lines)
     lines.append(line)
@@ -106,6 +108,12 @@ if DTcheck != -1:
     songLength = int(songLength)/1.5
 cheatFlagLeniency = int(songLength)/4000
 if cheatFlags > cheatFlagLeniency:
-    print(f"Wow! This replay has {cheatFlags} cheat flags! That replay is most likely cheated!")
+    print(f"Wow! This replay has {cheatFlags} cheat flags for linear movement! That replay is definitely cheated!")
 else:
-    print("No cheats have been detected!")
+    print("No cheats have been detected in linear movement!")
+teleportInstances = 0
+for value in range(0,len(xCoord)-1):
+    if math.sqrt(pow(xCoord[value+1]-xCoord[value],2)+pow(yCoord[value+1]-yCoord[value],2))>150:
+        teleportInstances+=1
+print("Number of cursor teleports: ",teleportInstances)
+replayFile.close()
