@@ -1,7 +1,14 @@
 import tkinter as tk
+from tkinter import Image
+from tkinter import filedialog
+from tkinter import messagebox
+from tkinter.filedialog import askopenfile
+from PIL import ImageTk
 
 root = tk.Tk();
 root.attributes('-fullscreen', True)
+background_image=tk.PhotoImage("727.gif")
+
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -10,10 +17,40 @@ class Application(tk.Frame):
         self.createWidgets()
 
     def createWidgets(self):
-        self.quitButton = tk.Button(self, text='Quit', fg = "red",
-            command=self.quit)
-        self.quitButton.pack()
-        self.quitButton.grid()
+
+        FILENAME = '727.gif'
+        canvas = tk.Canvas(root, width=1920, height=800)
+
+        canvas.grid()
+        tk_img = ImageTk.PhotoImage(file=FILENAME)
+        canvas.create_image(500, 340, image=tk_img)
+        fileInputButton = tk.Button(root, text= "Enter file", fg = "black",width = 20, height = 5,
+            command = self.load_file)
+        fileWindow = canvas.create_window(1070, 200, anchor='nw', window=fileInputButton)
+        quit_button = tk.Button(root, text="Quit", command=self.quit, anchor='w',
+                                width=20, activebackground="#33B5E5")
+        quit_button_window = canvas.create_window(1070, 370, anchor='nw', window=quit_button)
+
+        root.mainloop()
+
+        # self.fileInputButton.grid(row = 0, column = 1, pady = 200, ipadx = 50, ipady = 20)
+        # self.grid(row = 1, column = 1, padx = 1100, pady = 100)
+        # self.grid(row = 2, ipadx = 0, ipady = 100)
+        # self.quitButton = tk.Button(self, text='Quit', fg = "red",
+        #     command=self.quit)
+        # self.quitButton.grid(row = 3, column = 1, ipadx = 55, ipady = 20)
+
+    def load_file(self):
+        filename = filedialog.askopenfilename(filetypes = (("Template files", "*.tplate")
+                                                         ,("HTML files", "*.html;*.htm")
+                                                         ,("All files", "*.*") ))
+        if filename:
+            try:
+               self.settings["template"].set(filename)
+            except:
+                messagebox.showerror("Open Source File", "Failed to read file \n'%s'"%filename)
+                return
+
 
 app = Application()
 app.master.title('Sample application')
