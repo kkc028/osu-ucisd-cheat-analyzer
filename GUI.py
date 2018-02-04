@@ -23,6 +23,8 @@ class Application(tk.Frame):
         canvas = tk.Canvas(root, width=1920, height=800)
 
         canvas.grid()
+        # canvas.create_text(1070, 50,"OSU UCISD")
+
         tk_img = ImageTk.PhotoImage(file=FILENAME)
         canvas.create_image(500, 340, image=tk_img)
         fileInputButton = tk.Button(root, text= "Enter file", fg = "black", background = 'white', width = 20, height = 5,

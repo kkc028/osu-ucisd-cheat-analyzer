@@ -41,15 +41,9 @@ def CheatChecks(file):
     #if so, the slopes are compared to see if it moves linearly
     ################################################################################
     if DTcheck != -1:
-                    slopeValue2 = (yCoord[value + 4] - yCoord[value + 2]) / (xCoord[value + 4] - xCoord[value + 2])
-                    if slopeValue <= slopeValue2 + 0.03 and slopeValue >= slopeValue2 - 0.03:
-                        linearInstances += 1
-            elif (xCoord[value] - xCoord[value + 2]) > 0 and (xCoord[value + 2] - xCoord[value + 4]) > 0:
-                if (yCoord[value] - yCoord[value + 2]) < 0 and (yCoord[value + 2] - yCoord[value + 4]) < 0:
-                    slopeValue = (yCoord[value + 2] - yCoord[value]) / (xCoord[value + 2] - xCoord[value])
-                    slopeValue2 = (yCoord[value + 4] - yCoord[value + 2]) / (xCoord[value + 4] - xCoord[value + 2])
-                    if slopeValue <= slopeValue2 + 0.03 and slopeValue >= slopeValue2 - 0.03:
-                        linearInstances += 1
+        for value in range(0,len(xCoord)-4,4):
+            if (xCoord[value]-xCoord[value+2])<0 and (xCoord[value+2]-xCoord[value+4])<0:
+                if (yCoord[value]-yCoord[value+2])<0 and (yCoord[value+2]-yCoord[value+4])<0:
                     slopeValue = (yCoord[value+2]-yCoord[value])/(xCoord[value+2]-xCoord[value])
                     slopeValue2 = (yCoord[value+4]-yCoord[value+2])/(xCoord[value+4]-xCoord[value+2])
                     if slopeValue<= slopeValue2+0.03 and slopeValue>=slopeValue2-0.03:  #+1 and -1 for slope calculaction leniency
@@ -140,24 +134,24 @@ def CheatChecks(file):
     averageDeviation = 0
     sectLen = len(xCoord)/100        #divides number of coordinates by 100 to section them in 100 pieces
     for section in range(1,100):     #values from 1,100
-        for val in range(0,sectLen*section):   #values from 0 to 1/100 of # of coordinates MULTIPLY by section number piece
-            acceleration.append(accelValue(val))
-        acceleration = [float(i) for i in acceleration]
-        for i in range (0,len(acceleration)-1):
-            accelDev.append(acceleration[i+1]-acceleration[i])
-        accelDev = [float(i) for i in accelDev]
-        for stuff in accelDev:
-            totalAccel+=accelDev
-        secAccelDev.append(totalAccel/len(accelDev))
-        acceleration = []
-        accelDev = []
-    secAccelDev = [float(i) for i in secAccelDev]
-    for i in range(0,len(secAccelDev)):
-        totalSecAccelDev+=secAccelDev[i]
-    averageDeviation = totalSecAccelDev/len(secAccelDev)
+        for val in range(0,int(sectLen*section)):   #values from 0 to 1/100 of # of coordinates MULTIPLY by section number piece
+            acceleration.append(accelCalc(val, xCoord, yCoord))   #appends acceleration value from accelCalc function
+        acceleration = [float(i) for i in acceleration]  #turns accel list of str to list of int
+        for i in range(0,len(acceleration)-1):             #for loop to go through list of int acceleration
+            accelDev.append(acceleration[i+1]-acceleration[i])   #appends the subtracted acceleration (deviation) to accelDev
+        accelDev = [float(i) for i in accelDev]   #turns accelDev list from list of str to list of int
+        for stuff in accelDev:   #for loop to add together all values of accelDev
+            totalAccel+=abs(stuff) #abs because accelDev may be negative from subtraction
+        secAccelDev.append(totalAccel/len(accelDev))    #divides totalAccel to get the section's average acceleration deviation
+        acceleration = []       #resets acceleration list
+        accelDev = []           #resets accelDev list
+    secAccelDev = [float(i) for i in secAccelDev]     #turns setAccelDev list of str to list of int
+    for i in range(0,len(secAccelDev)):                  #goes through elements of secAccelDev
+        totalSecAccelDev+=secAccelDev[i]                #adds total of all sections of average acceleration deviation
+    averageDeviation = totalSecAccelDev/len(secAccelDev)          #takes the total average acceleration deviation of all sections.
     print(f"The average acceleration deviation of the map is: {averageDeviation}!")
     replayFile.close()
-def accelCalc(c: int) -> int:
+def accelCalc(val: int, xCoord: list, yCoord:list) -> int:
     """calculate acceleration of a given instance
     """
     accelValue = math.sqrt(pow(xCoord[val+1]-xCoord[val],2)+pow(yCoord[val+1]-yCoord[val],2))
