@@ -35,8 +35,10 @@ linearInstances = 0
 slopeValue = 0
 slopeValue2 = 0
 cheatFlags = 0
+################################################################################
 #calculates slopes if cursor is moving in same direction for two instances
 #if so, the slopes are compared to see if it moves linearly
+################################################################################
 if DTcheck != -1:
     for value in range(0,len(xCoord)-4,4):
         if (xCoord[value]-xCoord[value+2])<0 and (xCoord[value+2]-xCoord[value+4])<0:
@@ -111,9 +113,22 @@ if cheatFlags > cheatFlagLeniency:
     print(f"Wow! This replay has {cheatFlags} cheat flags for linear movement! That replay is definitely cheated!")
 else:
     print("No cheats have been detected in linear movement!")
+################################################################################
+#counts the number of times a cursor moves>150pixels in one instance
+################################################################################
 teleportInstances = 0
 for value in range(0,len(xCoord)-1):
     if math.sqrt(pow(xCoord[value+1]-xCoord[value],2)+pow(yCoord[value+1]-yCoord[value],2))>150:
         teleportInstances+=1
 print("Number of cursor teleports: ",teleportInstances)
+################################################################################
+#Cursor Acceleration
+################################################################################
+section = []
+for i in range (0,100):
+    section.append(i)
+section = [int(i) for i in section]
+
+
+
 replayFile.close()
