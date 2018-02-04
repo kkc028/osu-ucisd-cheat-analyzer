@@ -135,20 +135,20 @@ def CheatChecks(file):
     sectLen = len(xCoord)/100        #divides number of coordinates by 100 to section them in 100 pieces
     for section in range(1,100):     #values from 1,100
         for val in range(0,sectLen*section):   #values from 0 to 1/100 of # of coordinates MULTIPLY by section number piece
-            acceleration.append(accelValue(val))
-        acceleration = [float(i) for i in acceleration]
-        for i in range (0,len(acceleration)-1):
-            accelDev.append(acceleration[i+1]-acceleration[i])
-        accelDev = [float(i) for i in accelDev]
-        for stuff in accelDev:
-            totalAccel+=accelDev
-        secAccelDev.append(totalAccel/len(accelDev))
-        acceleration = []
-        accelDev = []
-    secAccelDev = [float(i) for i in secAccelDev]
-    for i in range(0,len(secAccelDev)):
-        totalSecAccelDev+=secAccelDev[i]
-    averageDeviation = totalSecAccelDev/len(secAccelDev)
+            acceleration.append(accelValue(val))   #appends acceleration value from accelCalc function
+        acceleration = [float(i) for i in acceleration]  #turns accel list of str to list of int
+        for i in range(0,len(acceleration)-1):             #for loop to go through list of int acceleration
+            accelDev.append(acceleration[i+1]-acceleration[i])   #appends the subtracted acceleration (deviation) to accelDev
+        accelDev = [float(i) for i in accelDev]   #turns accelDev list from list of str to list of int
+        for stuff in accelDev:   #for loop to add together all values of accelDev
+            totalAccel+=abs(stuff) #abs because accelDev may be negative from subtraction
+        secAccelDev.append(totalAccel/len(accelDev))    #divides totalAccel to get the section's average acceleration deviation
+        acceleration = []       #resets acceleration list
+        accelDev = []           #resets accelDev list
+    secAccelDev = [float(i) for i in secAccelDev]     #turns setAccelDev list of str to list of int
+    for i in range(0,len(secAccelDev)):                  #goes through elements of secAccelDev
+        totalSecAccelDev+=secAccelDev[i]                #adds total of all sections of average acceleration deviation
+    averageDeviation = totalSecAccelDev/len(secAccelDev)          #takes the total average acceleration deviation of all sections.
     print(f"The average acceleration deviation of the map is: {averageDeviation}!")
     replayFile.close()
 def accelCalc(c: int) -> int:
