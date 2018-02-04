@@ -123,6 +123,8 @@ def CheatChecks(file):
         if math.sqrt(pow(xCoord[value + 1] - xCoord[value], 2) + pow(yCoord[value + 1] - yCoord[value], 2)) > 150:
             teleportInstances += 1
     print("Number of cursor teleports: ", teleportInstances)
+    if teleportInstances>30:
+        print("That's a suspicious amount of cursor teleports! This play might be cheated!")
     ################################################################################
     #Cursor Acceleration
     ################################################################################
@@ -150,7 +152,16 @@ def CheatChecks(file):
     for i in range(0,len(secAccelDev)):                  #goes through elements of secAccelDev
         totalSecAccelDev+=secAccelDev[i]                #adds total of all sections of average acceleration deviation
     averageDeviation = totalSecAccelDev/len(secAccelDev)          #takes the total average acceleration deviation of all sections.
+    averageDeviation = "{0:.2f}".format(averageDeviation)
     print(f"The average acceleration deviation of the map is: {averageDeviation}!")
+    if DTcheck != -1:
+        if float(averageDeviation)<200:
+            print("That's an unusually steady acceleration! This play may be suspicious.")
+        if float(averageDeviation)>350:
+            print("That's an unusually unstable acceleration! This play may be suspicious.")
+    else:
+        if float(averageDeviation)>250:
+            print("That's an unusually unstable acceleration! This play may be suspicious.")
     replayFile.close()
 def accelCalc(val: int, xCoord: list, yCoord:list) -> int:
     """calculate acceleration of a given instance
