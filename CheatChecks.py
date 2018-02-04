@@ -1,4 +1,5 @@
 import math
+import ctypes  # An included library with Python install.
 def CheatChecks(file):
     xCoord=[]
     yCoord=[]
@@ -11,6 +12,10 @@ def CheatChecks(file):
     substr3 = ')'
     xTemp=0
     yTemp=0
+    cheatFlagOn = False;
+    teleportOn = False;
+    accelerationFlag = False;
+    title = "Analysis"
     replay = file           #lets user input replay .txt
     replayFile = open(replay,'rt')
     print(f"Now reviewing {file}")
@@ -111,9 +116,11 @@ def CheatChecks(file):
         songLength = int(songLength)/1.5
     cheatFlagLeniency = int(songLength)/4000
     if cheatFlags > cheatFlagLeniency:
-        print(f"Wow! This replay has {cheatFlags} cheat flags for linear movement! That replay is definitely cheated!")
+        cheatFlagOn = True;
+        # print(f"Wow! This replay has {cheatFlags} cheat flags for linear movement! That replay is definitely cheated!")
     else:
-        print("No cheats have been detected in linear movement!")
+        cheatFlagOn = False;
+        # print("No cheats have been detected in linear movement!")
     ################################################################################
     #counts the number of times a cursor moves>150pixels in one instance
     ################################################################################
@@ -124,7 +131,8 @@ def CheatChecks(file):
             teleportInstances += 1
     print("Number of cursor teleports: ", teleportInstances)
     if teleportInstances>30:
-        print("That's a suspicious amount of cursor teleports! This play might be cheated!")
+        teleportOn = True;
+        # print("That's a suspicious amount of cursor teleports! This play might be cheated!")
     ################################################################################
     #Cursor Acceleration
     ################################################################################
@@ -156,12 +164,45 @@ def CheatChecks(file):
     print(f"The average acceleration deviation of the map is: {averageDeviation}!")
     if DTcheck != -1:
         if float(averageDeviation)<200:
-            print("That's an unusually steady acceleration! This play may be suspicious.")
+            accelerationFlag = True;
+            # print("That's an unusually steady acceleration! This play may be suspicious.")
         if float(averageDeviation)>350:
-            print("That's an unusually unstable acceleration! This play may be suspicious.")
+            accelerationFlag = True;
     else:
         if float(averageDeviation)>250:
-            print("That's an unusually unstable acceleration! This play may be suspicious.")
+            accelerationFlag = True;
+    if not cheatFlagOn and not teleportOn and not accelerationFlag:
+        ctypes.windll.user32.MessageBoxW(0, "No cheats detected, nothing looks suspicious.", title, 1)
+    elif not cheatFlagOn and not teleportOn and accelerationFlag:
+        ctypes.windll.user32.MessageBoxW(0, "That's an unusually steady acceleration! This play may be suspicious.", title, 1)
+    elif not cheatFlagOn and teleportOn and not accelerationFlag:
+        ctypes.windll.user32.MessageBoxW(0, "That's a suspicious amount of cursor teleports! This play might be cheated!", title, 1)
+    elif not cheatFlagOn and teleportOn and accelerationFlag:
+        ctypes.windll.user32.MessageBoxW(0, "That's an unusually steady acceleration! This play may be suspicious.\n"
+                                            "That's a suspicious amount of cursor teleports! This play might be cheated!", title, 1)
+
+    elif cheatFlagOn and not teleportOn and not accelerationFlag:
+        ctypes.windll.user32.MessageBoxW(0,
+        f"Wow! This replay has {cheatFlags} cheat flags for linear movement! That replay is definitely cheated!"
+        , title, 1)
+
+    elif cheatFlagOn and teleportOn and not accelerationFlag:
+        ctypes.windll.user32.MessageBoxW(0,
+        f"Wow! This replay has {cheatFlags} cheat flags for linear movement! That replay is definitely cheated!\n"
+        f"That's a suspicious amount of cursor teleports! This play might be cheated!"
+        , title, 1)
+    elif cheatFlagOn and not teleportOn and accelerationFlag:
+        ctypes.windll.user32.MessageBoxW(0,
+        f"Wow! This replay has {cheatFlags} cheat flags for linear movement! That replay is definitely cheated!\n"
+        f"That's an unusually steady acceleration! This play may be suspicious."
+        , title, 1)
+    elif cheatFlagOn and teleportOn and accelerationFlag:
+        ctypes.windll.user32.MessageBoxW(0,
+        f"Wow! This replay has {cheatFlags} cheat flags for linear movement! That replay is definitely cheated!\n"
+        f"That's a suspicious amount of cursor teleports! This play might be cheated!\n"
+        f"That's an unusually steady acceleration! This play may be suspicious."
+        , title, 1)
+
     replayFile.close()
 def accelCalc(val: int, xCoord: list, yCoord:list) -> int:
     """calculate acceleration of a given instance
