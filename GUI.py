@@ -1,4 +1,6 @@
 import tkinter as tk
+import math
+from CheatChecks import cheatChecks
 from tkinter import Image
 from tkinter import filedialog
 from tkinter import messagebox
@@ -8,7 +10,6 @@ from PIL import ImageTk
 root = tk.Tk();
 root.attributes('-fullscreen', True)
 background_image=tk.PhotoImage("727.gif")
-
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -24,8 +25,8 @@ class Application(tk.Frame):
         canvas.grid()
         tk_img = ImageTk.PhotoImage(file=FILENAME)
         canvas.create_image(500, 340, image=tk_img)
-        fileInputButton = tk.Button(root, text= "Enter file", fg = "black",width = 20, height = 5,
-            command = self.load_file)
+        fileInputButton = tk.Button(root, text= "Enter file", fg = "black", background = 'blue', width = 20, height = 5,
+            command = self.load_file, activebackground="#33B5E5")
         fileWindow = canvas.create_window(1070, 200, anchor='nw', window=fileInputButton)
         quit_button = tk.Button(root, text="Quit", command=self.quit, anchor='w',
                                 width=20, activebackground="#33B5E5")
@@ -41,16 +42,10 @@ class Application(tk.Frame):
         # self.quitButton.grid(row = 3, column = 1, ipadx = 55, ipady = 20)
 
     def load_file(self):
-        filename = filedialog.askopenfilename(filetypes = (("Template files", "*.tplate")
+        filename = filedialog.askopenfilename(filetypes = (("Template files", "*.txt")
                                                          ,("HTML files", "*.html;*.htm")
                                                          ,("All files", "*.*") ))
-        if filename:
-            try:
-               self.settings["template"].set(filename)
-            except:
-                messagebox.showerror("Open Source File", "Failed to read file \n'%s'"%filename)
-                return
-
+        cheatChecks(filename)
 
 app = Application()
 app.master.title('Sample application')
