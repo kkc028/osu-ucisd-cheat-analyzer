@@ -1,15 +1,4 @@
 import math
-xCoord=[]
-yCoord=[]
-lines = []
-index=0
-index2=0
-index3=0
-substr = ':'
-substr2 = ','
-substr3 = ')'
-xTemp=0
-yTemp=0
 def CheatChecks(file):
     print("Welcome to osu! UCISD's replay analyzer! Input a replay that you want to analyze!")
     replay = input("Name of replay: ")           #lets user input replay .txt
