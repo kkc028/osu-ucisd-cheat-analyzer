@@ -125,13 +125,16 @@ def CheatChecks(file):
     ################################################################################
     #Cursor Acceleration
     ################################################################################
-    counter = 0
+    secAccelDev = []
     accelDev = []
     acceleration = []
     totalAccel = 0
-    sectLen = len(xCoord)/100
-    for section in range(1,100):
-        for val in range(0,sectLen*section):
+    sectAccelDev = 0
+    totalSecAccelDev = 0
+    averageDeviation = 0
+    sectLen = len(xCoord)/100        #divides number of coordinates by 100 to section them in 100 pieces
+    for section in range(1,100):     #values from 1,100
+        for val in range(0,sectLen*section):   #values from 0 to 1/100 of # of coordinates MULTIPLY by section number piece
             acceleration.append(accelValue(val))
         acceleration = [float(i) for i in acceleration]
         for i in range (0,len(acceleration)-1):
@@ -139,14 +142,17 @@ def CheatChecks(file):
         accelDev = [float(i) for i in accelDev]
         for stuff in accelDev:
             totalAccel+=accelDev
-
-
-
-
-
-    def accelCalc(c: int) -> int:
-        """calculate acceleration of a given instance
-        """
-        accelValue = math.sqrt(pow(xCoord[val+1]-xCoord[val],2)+pow(yCoord[val+1]-yCoord[val],2))
-        return accelValue
+        secAccelDev.append(totalAccel/len(accelDev))
+        acceleration = []
+        accelDev = []
+    secAccelDev = [float(i) for i in secAccelDev]
+    for i in range(0,len(secAccelDev)):
+        totalSecAccelDev+=secAccelDev[i]
+    averageDeviation = totalSecAccelDev/len(secAccelDev)
+    print(f"The average acceleration deviation of the map is: {averageDeviation}!")
     replayFile.close()
+def accelCalc(c: int) -> int:
+    """calculate acceleration of a given instance
+    """
+    accelValue = math.sqrt(pow(xCoord[val+1]-xCoord[val],2)+pow(yCoord[val+1]-yCoord[val],2))
+    return accelValue
