@@ -1,14 +1,23 @@
 import math
 def CheatChecks(file):
-    print("Welcome to osu! UCISD's replay analyzer! Input a replay that you want to analyze!")
     replay = input("Name of replay: ")           #lets user input replay .txt
+    xCoord=[]
+    yCoord=[]
+    lines = []
+    index=0
+    index2=0
+    index3=0
+    substr = ':'
+    substr2 = ','
+    substr3 = ')'
+    xTemp=0
+    yTemp=0
+    replay = file           #lets user input replay .txt
     replayFile = open(replay,'rt')
     print(f"Now reviewing {file}")
-    for line in replayFile:  # appends each line into seperate elements of list(lines)
+    for line in replayFile:                   #appends each line into seperate elements of list(lines)
         lines.append(line)
-    str = lines[0]  # checks if the map is played with Doubletime.
-    DTcheck = str.find('DoubleTime', 0)
-    for useless in range(0, 11):  # pops the useless 11 lines of pre-info
+    str = lines[0]       #checks if the map is played with Doubletime.
         lines.pop(0)
     for element in lines:  # fishes lines out for x,y coordinates and stores them in lists(xCoord&yCoord)
         str = element
