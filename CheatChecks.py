@@ -118,17 +118,11 @@ def CheatChecks(file):
     #counts the number of times a cursor moves>150pixels in one instance
     ################################################################################
     teleportInstances = 0
-<<<<<<< HEAD
+
     for value in range(0, len(xCoord) - 1):
         if math.sqrt(pow(xCoord[value + 1] - xCoord[value], 2) + pow(yCoord[value + 1] - yCoord[value], 2)) > 150:
             teleportInstances += 1
     print("Number of cursor teleports: ", teleportInstances)
-        accelDev = []           #resets accelDev list
-=======
-    for value in range(0,len(xCoord)-1):
-        if math.sqrt(pow(xCoord[value+1]-xCoord[value],2)+pow(yCoord[value+1]-yCoord[value],2))>150:
-            teleportInstances+=1
-    print("Number of cursor teleports: ",teleportInstances)
     ################################################################################
     #Cursor Acceleration
     ################################################################################
@@ -157,7 +151,6 @@ def CheatChecks(file):
         totalSecAccelDev+=secAccelDev[i]                #adds total of all sections of average acceleration deviation
     averageDeviation = totalSecAccelDev/len(secAccelDev)          #takes the total average acceleration deviation of all sections.
     print(f"The average acceleration deviation of the map is: {averageDeviation}!")
->>>>>>> d9806379a1601f8b3c70ce56d39ae1d2a4d7625b
     replayFile.close()
 def accelCalc(val: int, xCoord: list, yCoord:list) -> int:
     """calculate acceleration of a given instance
