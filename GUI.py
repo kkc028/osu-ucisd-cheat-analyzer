@@ -25,7 +25,7 @@ class Application(tk.Frame):
         canvas.grid()
         tk_img = ImageTk.PhotoImage(file=FILENAME)
         canvas.create_image(500, 340, image=tk_img)
-        fileInputButton = tk.Button(root, text= "Enter file", fg = "black", background = 'blue', width = 20, height = 5,
+        fileInputButton = tk.Button(root, text= "Enter file", fg = "black", background = 'white', width = 20, height = 5,
             command = self.load_file, activebackground="#33B5E5")
         fileWindow = canvas.create_window(1070, 200, anchor='nw', window=fileInputButton)
         quit_button = tk.Button(root, text="Quit", command=self.quit, anchor='w',
