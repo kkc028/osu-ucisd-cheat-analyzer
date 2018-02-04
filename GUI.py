@@ -1,6 +1,6 @@
 import tkinter as tk
 import math
-from CheatChecks import cheatChecks
+from CheatChecks import CheatChecks
 from tkinter import Image
 from tkinter import filedialog
 from tkinter import messagebox
@@ -45,7 +45,7 @@ class Application(tk.Frame):
         filename = filedialog.askopenfilename(filetypes = (("Template files", "*.txt")
                                                          ,("HTML files", "*.html;*.htm")
                                                          ,("All files", "*.*") ))
-        cheatChecks(filename)
+        CheatChecks(filename)
 
 app = Application()
 app.master.title('Sample application')
