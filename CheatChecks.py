@@ -116,5 +116,6 @@ def CheatChecks(file):
         if math.sqrt(pow(xCoord[value + 1] - xCoord[value], 2) + pow(yCoord[value + 1] - yCoord[value], 2)) > 150:
             teleportInstances += 1
     print("Number of cursor teleports: ", teleportInstances)
+        accelDev = []           #resets accelDev list
     replayFile.close()
 >>>>>>> 14815598e5bc52f69856fa46e160d97ef1d39da3

@@ -1,6 +1,6 @@
 import tkinter as tk
 import math
-from CheatChecks import cheatChecks
+from CheatChecks import CheatChecks
 from tkinter import Image
 from tkinter import filedialog
 from tkinter import messagebox
