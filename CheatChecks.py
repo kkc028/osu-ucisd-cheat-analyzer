@@ -18,14 +18,14 @@ def CheatChecks(file):
     for line in replayFile:                   #appends each line into seperate elements of list(lines)
         lines.append(line)
     str = lines[0]       #checks if the map is played with Doubletime.
+    for useless in range(0,11):           #pops the useless 11 lines of pre-info
         lines.pop(0)
-    for element in lines:  # fishes lines out for x,y coordinates and stores them in lists(xCoord&yCoord)
-        str = element
-        index = str.find(substr, 0) + 3
-        index2 = str.find(substr2, 0)
+    for element in lines: #fishes lines out for x,y coordinates and stores them in lists(xCoord&yCoord)
+        str=element
+        index = str.find(substr,0) + 3
+        index2 = str.find(substr2,0)
         xTemp = element[index:index2]
         xCoord.append(xTemp)
-        index2 += 1
         index3 = str.find(substr3, index2)
         yTemp = element[index2:index3]
         yCoord.append(yTemp)
