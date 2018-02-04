@@ -131,3 +131,4 @@ for element in lines: #fishes lines out for x,y coordinates and stores them in l
             teleportInstances += 1
     print("Number of cursor teleports: ", teleportInstances)
     replayFile.close()
+>>>>>>> 14815598e5bc52f69856fa46e160d97ef1d39da3
